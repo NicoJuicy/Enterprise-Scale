@@ -16,7 +16,7 @@ A policy will continuously check if a Virtual WAN VHub already exist in "Connect
 For all Azure Virtual WAN VHubs, Policies will ensure that Azure Firewall is deployed and linked to the existing global Azure Firewall Policy as well as the creation of a regional Firewall policy, if needed.
 
 
-An Azure Policy will also deploy default NSGs and UDRs in Landing Zones and, while NSG will be linked to all subnets, UDR will only be linked to VNet injected PaaS services subnets. The Azure Policy will ensure that the right NSG and UDR rules are configured to allow control plane traffic for VNet injected services to continue to work but only for those Azure PaaS services that have been approved as per the [Service Enablement Framework](https://docs.microsoft.com/azure/cloud-adoption-framework/ready/enterprise-scale/security-governance-and-compliance#whitelist-the-service-framework) described in this document. This is required as, when landing zone VNets get connected to Virtual WAN VHub, they will get the default route (0.0.0.0/0) configured to point to their regional Azure Firewall, hence UDR and NSG rules are required to protect and manage control plane traffic for VNet injected PaaS services (such as SQL MI).
+An Azure Policy will also deploy default NSGs and UDRs in Landing Zones and, while NSG will be linked to all subnets, UDR will only be linked to VNet injected PaaS services subnets. The Azure Policy will ensure that the right NSG and UDR rules are configured to allow control plane traffic for VNet injected services to continue to work but only for those Azure PaaS services that have been approved as per the [Service Enablement Framework](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/enterprise-scale/security-governance-and-compliance#whitelist-the-service-framework) described in this document. This is required as, when landing zone VNets get connected to Virtual WAN VHub, they will get the default route (0.0.0.0/0) configured to point to their regional Azure Firewall, hence UDR and NSG rules are required to protect and manage control plane traffic for VNet injected PaaS services (such as SQL MI).
 
 For cross-premises connectivity, Policy will ensure that ExpressRoute and/or VPN gateways are deployed (as required by the regional VHub), and it will connect the VHub to on-premises using ExpressRoute (by taking the ExpressRoute Resource ID and authorization key as parameters). In case of VPN, Contoso can decide if they use their existing SD-WAN solution to automate the connectivity from branch offices into Azure via S2S VPN, or alternatively, Contoso can manually configure the CPE devices on the branch offices and then let Azure Policy to configure the VPN sites in Azure Virtual WAN. As Contoso is rolling out a SD-WAN solution to manage the connectivity of all their branches around the globe, their preference is to use the SD-WAN solution, which is a solution certified with Azure Virtual WAN, to connect all their branches to Azure.
 
@@ -36,8 +36,8 @@ Networking:
 
 IAM
 
-1) Create Azure AD Group for Subscriptions access
-2) Create Azure AD PIM Entitlement for the scope
+1) Create Microsoft Entra Group for Subscriptions access
+2) Create Microsoft Entra PIM Entitlement for the scope
 
 # File -> New -> Sandbox
 
@@ -45,4 +45,4 @@ Sandbox Subscriptions are for experiment and validation only. Sandbox Subscripti
 
 ## File -> Delete -> Sandbox/Landing Zone
 
-Susbcription will be moved to a decommissioned Management Group. Decommissioned Management Group policies will deny creation of new services and a Subscription cancellation request will be sent.
+Subscription will be moved to a decommissioned Management Group. Decommissioned Management Group policies will deny creation of new services and a Subscription cancellation request will be sent.

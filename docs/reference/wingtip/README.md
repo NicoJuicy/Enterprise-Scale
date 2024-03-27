@@ -1,6 +1,6 @@
 | ARM Template | Scale without refactoring |
 |:--------------|:--------------|
-|[![Deploy To Azure](https://docs.microsoft.com/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2Feslz-portal.json) | Yes |
+|[![Deploy To Azure](https://learn.microsoft.com/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2Feslz-portal.json) | Yes |
 
 # Deploy Enterprise-Scale foundation
 
@@ -17,16 +17,16 @@ Please refer to [Enterprise-Scale Landing Zones User Guide](https://github.com/A
 If the business requirements changes over time, such as migration of on-prem applications to Azure that requires hybrid connectivity, the architecture allows you to expand and implement networking without refactoring Azure Design with no disruption to what is already in Azure. The Enterprise-Scale architecture allows to create the Connectivity Subscription and place it into the platform Management Group and assign Azure Policies or/and deploy the target networking topology using either Virtual WAN or Hub and Spoke networking topology.
 For more details, see the *next steps* section at the end of this document.
 
-## Pre-requisites
+## Prerequisites
 
-To deploy this ARM template, your user/service principal must have Owner permission at the Tenant root.
-See the following [instructions](../../EnterpriseScale-Setup-azure.md) on how to grant access before you proceed.
+To deploy this ARM template, there are a number of prerequisites that must be met.
+See [here](../../wiki/Deploying-ALZ-Pre-requisites.md) for more details.
 
-### Optional pre-requsites
+### Optional pre-requisites
 
 The deployment experience in Azure portal allows you to bring in an existing (preferably empty) subscription dedicated for platform management, and an existing subscription that can be used as the initial landing zone for your applications.
 
-To learn how to create new subscriptions programmatically, please visit this [link](https://docs.microsoft.com/azure/cost-management-billing/manage/programmatically-create-subscription).
+To learn how to create new subscriptions programmatically, please visit this [link](https://learn.microsoft.com/azure/cost-management-billing/manage/programmatically-create-subscription).
 
 To learn how to create new subscriptions using Azure portal, please visit this [link](https://azure.microsoft.com/blog/create-enterprise-subscription-experience-in-azure-portal-public-preview/).
 
@@ -63,7 +63,6 @@ By default, all recommendations are enabled, and you must explicitly disable the
   - Azure Sentinel
   - Diagnostics settings for Activity Logs, VMs, and PaaS resources sent to Log Analytics
 - (Optionally) An Azure subscription dedicated for Identity in case your organization requires to have Active Directory Domain Controllers in a dedicated subscription.
-- (Optionally) Integrate your Azure environment with GitHub (Azure DevOps will come later), where you provide the PA Token to create a new repository and automatically discover and merge your deployment into Git.
 - Landing Zone Management Group for Online applications that will be internet-facing, where a virtual network is optional and hybrid connectivity is not required.
   - This is where you will create your Subscriptions that will host your online workloads.
 - Landing zone subscriptions for Azure native, internet-facing Online applications and resources.

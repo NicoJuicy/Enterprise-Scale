@@ -1,7 +1,7 @@
 
 | ARM Template | Scale without refactoring |
 |:--------------|:--------------|
-|[![Deploy To Azure](https://docs.microsoft.com/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2Feslz-portal.json) | Yes |
+|[![Deploy To Azure](https://learn.microsoft.com/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2Feslz-portal.json) | Yes |
 
 # Deploy Enterprise-Scale with Azure VWAN
 
@@ -22,16 +22,16 @@ Please refer to [Enterprise-Scale Landing Zones User Guide](https://github.com/A
 
 If customer started with a Enterprise-Scale foundation deployment, and if the business requirements changes over time, such as migration of on-prem applications to Azure that requires hybrid connectivity, you will simply create the **Connectivity** Subscription and place it into the **Platform > Connectivity** Management Group and assign Azure Policy for the VWAN network topology.
 
-## Pre-requisites
+## Prerequisites
 
-To deploy this ARM template, your user/service principal must have Owner permission at the Tenant root.
-See the following [instructions](../../EnterpriseScale-Setup-azure.md) on how to grant access.
+To deploy this ARM template, there are a number of prerequisites that must be met.
+See [here](../../wiki/Deploying-ALZ-Pre-requisites.md) for more details.
 
 ### Optional prerequisites
 
 The deployment experience in Azure portal allows you to bring in existing (preferably empty) subscriptions dedicated for platform management, connectivity and identity. It also allows you to bring existing subscriptions that can be used as the initial landing zones for your applications.
 
-To learn how to create new subscriptions programmatically, please visit this [link](https://docs.microsoft.com/azure/cost-management-billing/manage/programmatically-create-subscription).
+To learn how to create new subscriptions programmatically, please visit this [link](https://learn.microsoft.com/azure/cost-management-billing/manage/programmatically-create-subscription).
 
 To learn how to create new subscriptions using Azure portal, please visit this [link](https://azure.microsoft.com/blog/create-enterprise-subscription-experience-in-azure-portal-public-preview/).
 
@@ -54,7 +54,6 @@ The rest of the options across the different blades will depend on your environm
   - Azure Security Center (Standard or Free tier)
   - Azure Sentinel
   - Diagnostics settings for Activity Logs, VMs, and PaaS resources sent to Log Analytics
-- (Optionally) Integrate your Azure environment with GitHub (Azure DevOps will come later), where you provide the PA Token to create a new repository and automatically discover and merge your deployment into Git.
 - An Azure Subscription dedicated for **connectivity**, which deploys core Azure networking resources such as:
   -  Azure VWAN
   - VWAN Hub

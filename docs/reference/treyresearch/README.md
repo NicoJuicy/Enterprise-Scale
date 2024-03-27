@@ -1,6 +1,6 @@
 | ARM Template | Scale without refactoring |
 |:--------------|:--------------|
-| [![Deploy To Azure](https://docs.microsoft.com/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2Feslz-portal.json)  | Yes |
+| [![Deploy To Azure](https://learn.microsoft.com/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2Feslz-portal.json)  | Yes |
 
 # Deploy Enterprise-scale for small enterprises
 
@@ -20,15 +20,16 @@ Please refer to [Enterprise-Scale Landing Zones User Guide](https://github.com/A
 
 If the business requirements change over time, the architecture allows for creating additional subscriptions and placing them into the suitable management group and assigning Azure policies. For more details, see the next steps section at the end of this document.
 
-## Pre-requisites
+## Prerequisites
 
-To deploy this ARM template, your user/service principal must have Owner permission at the Azure Active Directory Tenant root. See the following [instructions](https://docs.microsoft.com/azure/role-based-access-control/elevate-access-global-admin) on how to grant access before you proceed.
+To deploy this ARM template, there are a number of prerequisites that must be met.
+See [here](../../wiki/Deploying-ALZ-Pre-requisites.md) for more details.
 
 ## Optional pre-requisites
 
 The deployment experience in Azure portal allows you to bring in an existing (preferably empty) subscription dedicated to host your Platform (Management, Connectivity and Identity) resources. It also allows you to bring existing subscriptions that can be used as the initial landing zones for your applications.
 
-To learn how to create new subscriptions programmatically, please visit [Microsoft Docs](https://docs.microsoft.com/azure/cost-management-billing/manage/programmatically-create-subscription).
+To learn how to create new subscriptions programmatically, please visit [Microsoft Docs](https://learn.microsoft.com/azure/cost-management-billing/manage/programmatically-create-subscription).
 
 To learn how to create new subscriptions using the Azure portal, please visit [Microsoft Docs](https://azure.microsoft.com/blog/create-enterprise-subscription-experience-in-azure-portal-public-preview/).
 
@@ -72,6 +73,8 @@ By default, all recommendations are enabled. You must explicitly disable them if
     - Enforce encryption for Azure SQL
     - Enforce auditing for Azure SQL
     - Enforce secure access (HTTPS) to storage accounts
+
+  **Note:** You may notice the creation of different *managed identities* after deploying the policies described above. This is because a policy with effect *deployIfNotExists (DINE) or modify* will be enforced when enabling a recommendation. These kind of policy effects use managed identities in order to remediate resources that are not compliant. To learn more about what policies are included in ALZ reference implementations, refer to [ALZ Policies](https://github.com/Azure/Enterprise-Scale/wiki/ALZ-Policies).   
   
 ![Trey Research](./media/es-lite.png)
 
@@ -83,7 +86,7 @@ By default, all recommendations are enabled. You must explicitly disable them if
 
 Assign Azure RBAC permissions to the groups/users who should use the landing zones (subscriptions) so they can start deploying their workloads.
 
-Azure role-based access control (Azure RBAC) is a system that provides fine-grained access management of Azure resources. Using Azure RBAC, you can segregate your team's duties and grant only the amount of access to users that they need to perform their jobs. See more about security roles at [Microsoft Docs](https://docs.microsoft.com/azure/role-based-access-control/).
+Azure role-based access control (Azure RBAC) is a system that provides fine-grained access management of Azure resources. Using Azure RBAC, you can segregate your team's duties and grant only the amount of access to users that they need to perform their jobs. See more about security roles at [Microsoft Docs](https://learn.microsoft.com/azure/role-based-access-control/).
 
 #### Manage your Landing Zones
 

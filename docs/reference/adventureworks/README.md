@@ -1,12 +1,12 @@
 | ARM Template | Scale without refactoring |
 |:--------------|:--------------|
-| [![Deploy To Azure](https://docs.microsoft.com/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2Feslz-portal.json)  | Yes |
+| [![Deploy To Azure](https://learn.microsoft.com/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2FEnterprise-Scale%2Fmain%2FeslzArm%2Feslz-portal.json)  | Yes |
 
 # Deploy Enterprise-Scale with hub and spoke architecture
 
 The Enterprise-Scale architecture is modular by design and allow organizations to start with foundational landing zones that support their application portfolios and add hybrid connectivity with ExpressRoute or VPN when required. Alternatively, organizations can start with an Enterprise-Scale architecture based on the traditional hub and spoke network topology if customers require hybrid connectivity to on-premises locations from the beginning.
 
-A hub and spoke network topology allows you to create a central Hub VNet that contains shared networking components (such as Azure Firewall, ExpressRoute and VPN Gateways) that can then be used by spoke VNets, connected to the Hub VNet via VNET Peering, to centralize connectivity in your environment. Gateway transit in VNet peering allows spokes to have connectivity to/from on-premises via ExpressRoute or VPN, and also, [transitive connectivity](https://azure.microsoft.com/blog/create-a-transit-vnet-using-vnet-peering/) across spokes can be implemented by deploying User Defined Routes (UDR) on the spokes and using Azure Firewall or an NVA in the hub as the transit resource. Hub and spoke network design considerations & recommendations can be found [here](https://docs.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology).
+A hub and spoke network topology allows you to create a central Hub VNet that contains shared networking components (such as Azure Firewall, ExpressRoute and VPN Gateways) that can then be used by spoke VNets, connected to the Hub VNet via VNET Peering, to centralize connectivity in your environment. Gateway transit in VNet peering allows spokes to have connectivity to/from on-premises via ExpressRoute or VPN, and also, [transitive connectivity](https://azure.microsoft.com/blog/create-a-transit-vnet-using-vnet-peering/) across spokes can be implemented by deploying User Defined Routes (UDR) on the spokes and using Azure Firewall or an NVA in the hub as the transit resource. Hub and spoke network design considerations & recommendations can be found [here](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/traditional-azure-networking-topology).
 
 ![Hub & Spoke Network Topology](./media/hub-and-spoke-topology.png)
 
@@ -25,16 +25,16 @@ Please refer to the [Enterprise-Scale Landing Zones User Guide](https://github.c
 
 If customer started with a Enterprise-Scale foundation deployment, and if the business requirements changes over time, such as migration of on-premise applications to Azure that requires hybrid connectivity, you will simply create the **Connectivity** Subscription, place it into the **Platform > Connectivity** Management Group and assign Azure Policy for the hub and spoke network topology.
 
-## Pre-requisites
+## Prerequisites
 
-To deploy this ARM template, your user/service principal must have Owner permission at the Tenant root.
-See the following [instructions](../../EnterpriseScale-Setup-azure.md) on how to grant access.
+To deploy this ARM template, there are a number of prerequisites that must be met.
+See [here](../../wiki/Deploying-ALZ-Pre-requisites.md) for more details.
 
 ### Optional prerequisites
 
 The deployment experience in Azure portal allows you to bring in existing (preferably empty) subscriptions dedicated for platform management, connectivity and identity. It also allows you to bring existing subscriptions that can be used as the initial landing zones for your applications.
 
-To learn how to create new subscriptions programmatically, please visit this [link](https://docs.microsoft.com/azure/cost-management-billing/manage/programmatically-create-subscription).
+To learn how to create new subscriptions programmatically, please visit this [link](https://learn.microsoft.com/azure/cost-management-billing/manage/programmatically-create-subscription).
 
 To learn how to create new subscriptions using Azure portal, please visit this [link](https://azure.microsoft.com/blog/create-enterprise-subscription-experience-in-azure-portal-public-preview/).
 
@@ -59,7 +59,6 @@ By default, all recommendations are enabled and you must explicitly disable them
   - Azure Security Center (Standard or Free tier)
   - Azure Sentinel
   - Diagnostics settings for Activity Logs, VMs, and PaaS resources sent to Log Analytics
-- (Optionally) Integrate your Azure environment with GitHub (Azure DevOps will come later), where you provide the PA Token to create a new repository and automatically discover and merge your deployment into Git.
 - An Azure subscription dedicated for **connectivity**, which deploys core Azure networking resources such as:
   - A hub virtual network
   - Azure Firewall (optional - deployment across Availability Zones)
@@ -90,7 +89,7 @@ By default, all recommendations are enabled and you must explicitly disable them
 
 ![Enterprise-Scale with connectivity](./media/es-hubspoke.png)
 
-> For a detailed networking topology diagram for this reference implementation click [here](../../media/es-hubspoke-nw.png)
+> For a detailed networking topology diagram for this reference implementation click [here](../../wiki/media/es-hubspoke-nw.png). This is also available in Visio format from [here](https://raw.githubusercontent.com/microsoft/CloudAdoptionFramework/master/ready/enterprise-scale-architecture.vsdx)
 
 ## Next steps
 

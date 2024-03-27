@@ -16,6 +16,10 @@
             ],
             "defaultValue": "Default"
         },
+        "nonComplianceMessagePlaceholder": {
+            "type": "string",
+            "defaultValue": "{enforcementMode}"
+        },
         "dnsZoneResourceGroupId": {
             "type": "string",
             "metadata": {
@@ -42,6 +46,7 @@
             "azureCosmosTablePrivateDnsZoneId": "[concat(variables('baseId'), 'privatelink.table.cosmos.azure.com')]",
             "azureDataFactoryPrivateDnsZoneId": "[concat(variables('baseId'), 'privatelink.datafactory.azure.net')]",
             "azureDataFactoryPortalPrivateDnsZoneId": "[concat(variables('baseId'), 'privatelink.adf.azure.com')]",
+            "azureDatabricksPrivateDnsZoneId": "[concat(variables('baseId'), 'privatelink.azuredatabricks.net')]",
             "azureHDInsightPrivateDnsZoneId": "[concat(variables('baseId'), 'privatelink.azurehdinsight.net')]",
             "azureMigratePrivateDnsZoneId": "[concat(variables('baseId'), 'privatelink.prod.migration.windowsazure.com')]",
             "azureStorageBlobPrivateDnsZoneId": "[concat(variables('baseId'), 'privatelink.blob.core.windows.net')]",
@@ -92,6 +97,11 @@
             "displayName": "Configure Azure PaaS services to use private DNS zones",
             "description": "This policy initiative is a group of policies that ensures private endpoints to Azure PaaS services are integrated with Azure Private DNS zones"
         },
+        "nonComplianceMessage": {
+            "message": "Azure PaaS services {enforcementMode} use private DNS zones.",
+            "Default": "must",
+            "DoNotEnforce": "should"
+        },
         "roleAssignmentNames": {
             "deployPrivateDnsZones": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').deployPrivateDnsZones))]"
         },
@@ -100,7 +110,7 @@
     "resources": [
         {
             "type": "Microsoft.Authorization/policyAssignments",
-            "apiVersion": "2019-09-01",
+            "apiVersion": "2022-06-01",
             "name": "[variables('policyAssignmentNames').deployPrivateDnsZones]",
             "location": "[deployment().location]",
             "identity": {
@@ -111,6 +121,11 @@
                 "displayName": "[variables('policyAssignmentNames').displayName]",
                 "policyDefinitionId": "[variables('policyDefinitions').deployPrivateDnsZones]",
                 "enforcementMode": "[parameters('enforcementMode')]",
+                "nonComplianceMessages": [
+                    {
+                        "message": "[replace(variables('nonComplianceMessage').message, parameters('nonComplianceMessagePlaceholder'), variables('nonComplianceMessage')[parameters('enforcementMode')])]"
+                    }
+                ],
                 "parameters": {
                     "azureFilePrivateDnsZoneId": {
                         "value": "[variables('policyParameterMapping').azureFilePrivateDnsZoneId]"
@@ -141,6 +156,9 @@
                     },
                     "azureDataFactoryPortalPrivateDnsZoneId": {
                         "value": "[variables('policyParameterMapping').azureDataFactoryPortalPrivateDnsZoneId]"
+                    },
+                    "azureDatabricksPrivateDnsZoneId": {
+                        "value": "[variables('policyParameterMapping').azureDatabricksPrivateDnsZoneId]"
                     },
                     "azureHDInsightPrivateDnsZoneId": {
                         "value": "[variables('policyParameterMapping').azureHDInsightPrivateDnsZoneId]"
@@ -220,7 +238,7 @@
                     "azureAsrPrivateDnsZoneId": {
                         "value": "[variables('policyParameterMapping').azureAsrPrivateDnsZoneId]"
                     },
-                    "azureIoTPrivateDnsZoneId": {
+                    "azureIotPrivateDnsZoneId": {
                         "value": "[variables('policyParameterMapping').azureIotPrivateDnsZoneId]"
                     },
                     "azureKeyVaultPrivateDnsZoneId": {
