@@ -47,9 +47,6 @@
         "enableAscForServersVulnerabilityAssessments": {
             "value": "DeployIfNotExists"
         },
-        "vulnerabilityAssessmentProvider": {
-            "value": "default"
-        },
         "enableAscForOssDb": {
             "value": "DeployIfNotExists"
         },
@@ -78,9 +75,6 @@
             "value": "DeployIfNotExists"
         },
         "enableAscForCspm": {
-            "value": "DeployIfNotExists"
-        },
-        "enableAscForDns": {
             "value": "DeployIfNotExists"
         },
         "enableAscForContainers": {
@@ -152,6 +146,66 @@
         "subnetMaskForAzFw": {
             "value": ""
         },
+        "addressPrefixSecondary": {
+            "value": "10.200.0.0/16"
+        },
+        "enablePrivateDnsZonesSecondary": {
+            "value": "Yes"
+        },
+        "enableVpnGwSecondary": {
+            "value": "No"
+        },
+        "enableVpnActiveActiveSecondary": {
+            "value": "Yes"
+        },
+        "gwRegionalOrAzSecondary": {
+            "value": ""
+        },
+        "gwRegionalSkuSecondary": {
+            "value": ""
+        },
+        "gwAzSkuSecondary": {
+            "value": ""
+        },
+        "vpnGateWayScaleUnitSecondary": {
+            "value": "1"
+        },
+        "subnetMaskForGwSecondary": {
+            "value": ""
+        },
+        "enableErGwSecondary": {
+            "value": "No"
+        },
+        "erAzSkuSecondary": {
+            "value": ""
+        },
+        "erRegionalSkuSecondary": {
+            "value": ""
+        },
+        "erRegionalOrAzSecondary": {
+            "value": ""
+        },
+        "expressRouteScaleUnitSecondary": {
+            "value": "1"
+        },
+        "enableHubSecondary": {
+            "value": "vhub"
+        },
+        "enableAzFwSecondary": {
+            "value": "No"
+        },
+        "enableAzFwDnsProxySecondary": {
+            "value": "No"
+        },
+        "firewallSkuSecondary": {
+            "value": "Standard"
+        },
+        "firewallZonesSecondary": {
+            "value": []
+        },
+        "subnetMaskForAzFwSecondary": {
+            "value": ""
+        },
         "denyMgmtPortsForIdentity": {
             "value": "Yes"
         },
@@ -170,6 +224,9 @@
         "identityAddressPrefix": {
             "value": "10.110.0.0/24"
         },
+        "identityAddressPrefixSecondary": {
+            "value": "10.210.0.0/24"
+        },
         "enableLzDdoS": {
             "value": "No"
         },
@@ -186,9 +243,6 @@
             "value": "Yes"
         },
         "enableVmssMonitoring": {
-            "value": "Yes"
-        },
-        "enableAksPolicy": {
             "value": "Yes"
         },
         "denyAksPrivileged": {
@@ -234,6 +288,9 @@
             "value": "Yes"
         },
         "enforceKvGuardrails": {
+            "value": "Yes"
+        },
+        "enforceBackup": {
             "value": "Yes"
         },
         "denyHybridNetworking": {

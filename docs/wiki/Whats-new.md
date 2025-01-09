@@ -1,6 +1,18 @@
 ## In this Section
 
 - [Updates](#updates)
+  - [December 2024](#december-2024)
+  - [November 2024](#november-2024)
+  - [🔃 Policy Refresh Q1 FY25](#-policy-refresh-q1-fy25)
+  - [October 2024](#october-2024)
+  - [September 2024](#september-2024)
+  - [August 2024](#august-2024)
+  - [July 2024](#july-2024)
+  - [June 2024](#june-2024)
+  - [🆕 AMA Updates](#-ama-updates)
+  - [🔃 Policy Refresh H2 FY24](#-policy-refresh-h2-fy24)
+  - [May 2024](#may-2024)
+  - [April 2024](#april-2024)
   - [March 2024](#march-2024)
   - [February 2024](#february-2024)
   - [AMA Update for the Portal Accelerator](#ama-update-for-the-portal-accelerator)
@@ -10,10 +22,7 @@
   - [November 2023](#november-2023)
   - [October 2023](#october-2023)
   - [September 2023](#september-2023)
-  - [August 2023](#august-2023)
-  - [July 2023](#july-2023)
-  - [June 2023](#june-2023)
-  - [Previous Updates](#may-2023)
+  - [Previous Updates](#august-2023)
 
 ---
 
@@ -40,6 +49,221 @@ This article will be updated as and when changes are made to the above and anyth
 ## Updates
 
 Here's what's changed in Enterprise Scale/Azure Landing Zones:
+
+### December 2024
+
+#### Tooling
+
+- Updated the ***Baseline alerts and monitoring*** integration section in the portal accelerator to deploy the latest release of AMBA (2024-12-10). To read more on the changes, see the [What's new](https://aka.ms/amba/alz/whatsnew) page in the AMBA documentation.
+
+### November 2024
+
+#### Tooling
+
+- A bug was resolved in the Portal Accelerator that caused deployment validation to fail with the error message "The 'location' property must be specified for 'amba-id-amba-prod-001'". This event happened when a Log Analytics Workspace was not deployed, but Azure Monitor Baseline Alerts were enabled. This issue occurred because Azure Monitor Baseline Alerts depend on the management subscription, which is not provided if the Log Analytics Workspace is not deployed. To address this scenario, an additional section was implemented in the Baseline alerts and monitoring tab allowing the selection of a Management subscription when not deploying a Log Analytics Workspace.
+- Updated the ***Baseline alerts and monitoring*** integration section in the portal accelerator to deploy the latest release of AMBA (2024-11-01). To read more on the changes, see the [What's new](https://aka.ms/amba/alz/whatsnew) page in the AMBA documentation.
+
+#### Documentation
+
+- Link for the Bicep Subscription Vending changed to AVM (Azure Verified Modules)
+
+### 🔃 Policy Refresh Q1 FY25
+
+- Updated ALZ custom policies enforcing minimum TLS versions to properly evaluate the minimum TLS version, ensuring services configured to deploy TLS 1.3 will successfully evaluate.
+- Updated the initiative [Deploy-MDFC-Config_20240319](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-MDFC-Config_20240319.html) to the the newer version of DCSPM: [Configure Microsoft Defender CSPM plan](https://www.azadvertizer.net/azpolicyadvertizer/72f8cee7-2937-403d-84a1-a4e3e57f3c21.html)
+- Updated [Deploy-Private-DNS-Generic](https://www.azadvertizer.net/azpolicyadvertizer/Deploy-Private-DNS-Generic.html) policy to include the ability to configure the location/region.
+- Removed duplicate assignment and portal option of [Deploy Azure Policy Add-on to Azure Kubernetes Service clusters](https://www.azadvertizer.net/azpolicyadvertizer/a8eff44f-8c92-45c3-a3fb-9880802d67a7.html) at Landing Zones scope, as this policy is assigned in the initiative [Deploy Microsoft Defender for Cloud configuration](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-MDFC-Config_20240319.html) at Intermediate Root scope.
+- Updated the Deny-vNet-Peer-Cross-Sub.json definition policy to include a parameter for allowed virtual networks (vNets) in other subscriptions. For vNets to be permitted to peer, both vNet IDs must be added to the allowed list.
+- Added new built-in policy assignment and portal option for [Subnets should be private](https://www.azadvertizer.net/azpolicyadvertizer/7bca8353-aa3b-429b-904a-9229c4385837.html) assigned at Platform and Landing Zones management groups. This policy's assignment effect is defaulted to "Audit" in this release, giving the community time to adopt the good practice and address subnet compliance. We will default to the "Deny" effect as part of the next Policy Refresh.
+- Added option to select Diagnostic Settings category for logging to Log Analytics in the portal experience. You can now select between the recommended "All Logs" which covers almost all Azure resources, or "Audit Only" which is limited to resources that support this category.
+- Added additional built-in policies to initiatives for the following Azure AI Services:
+  - Azure OpenAI
+  - Cognitive Services/Search -> AI Services
+  - Machine Learning
+  - Bot Service (new) -> AI Bot Services
+- Updated the initiative [Deploy-MDFC-Config_20240319](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-MDFC-Config_20240319.html) to include an additional parameter that allows you to specify if the Defender for Cloud export to Log Analytics should create a new resource group. This is useful when you want to specify the resource group name or requires tags on resource groups. Will be used by other RIs - Terraform and Bicep (portal accelerator will use default values).
+- Updated Automation Account to disable local authentication by default.
+- Updated the initiative [Deploy-Private-DNS-Zones](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-Private-DNS-Zones.html) to reduce the number of parameters required while retaining backward compatibility. The initiative now only requires the subscription ID, resource group name, and location for the private DNS zone. The DNS zone resource id is now generated based on those inputs. This simplifies usage in the upstream Terraform and Bicep modules.
+
+#### Known Issue
+
+>Note: there a known issue when re-deploying ALZ using the portal accelerator with CMK enabled. For details please see [Known Issues](ALZ-Known-Issues).
+
+### October 2024
+
+#### Tooling
+
+- Resolved a bug in the Portal Accelerator related to deploying the single platform subscription setup. Incorrect parameter settings led to the failure of AMBA, as it erroneously attempted to deploy to a standard management group structure instead of a single platform management group as needed.
+- Increasing Policy assignment delay by a couple of minutes to help reduce assignment errors using the portal accelerator experience (the infamous "please wait 30 minutes and try again" error).
+- An issue with the Portal Accelerator regarding the Azure Monitor Baseline Alerts notifications settings was resolved. The problem occurred when no Email Address or Service Hook was specified on the Baseline alerts and monitoring tab. In this scenario, an empty string was converted to an array, resulting in the format `[""]` instead of `[]`. This caused errors during the remediation of the Notification Assets initiative.
+
+### September 2024
+
+#### Documentation
+
+- The [ALZ Policies](./ALZ-Policies) and [ALZ Deprecated Services](./ALZ-Deprecated-Services) documentation has been updated to reflect changes in AMBA. To provide more flexibility for future growth AMBA is transitioning from a single Landing Zone policy initiative and instead is adopting a modular approach by splitting the Landing Zone initiative into the following distinct components (initiatives):
+  - Key Management
+  - Load Balancing
+  - Network Changes
+  - Recovery Services
+  - Storage
+  - VM
+  - Web
+- [Guidance](https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/UpdateToNewReleases/Update_from_release_2024-06-05/) for updating and implementing these changes in existing environments is available on the AMBA website.
+- Updated the Azure Monitoring Baseline Alerts (AMBA) integration section in the portal accelerator to include new features exposed by the AMBA solution. To read more on the changes https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Whats-New/
+
+#### Other
+
+- The September community call recording and slides have been uploaded to YouTube and wiki, all available from [aka.ms/alz/community](https://aka.ms/alz/community)
+
+### August 2024
+
+> NOTE TO CONTRIBUTORS: Due to security compliance requirements, we've made core changes that mean we no longer automatically build the policies, initiatives and roles templates after changes in the `src` folder are committed. This means that you as a contributor must run the bicep build commands to generate the required outputs as part of your pull request. Depending on the files you've updated these are the commands (assuming you have bicep installed):
+>
+> - `bicep build ./src/templates/policies.bicep --outfile ./eslzArm/managementGroupTemplates/policyDefinitions/policies.json`
+> - `bicep build ./src/templates/initiatives.bicep --outfile ./eslzArm/managementGroupTemplates/policyDefinitions/initiatives.json`
+> - `bicep build ./src/templates/roles.bicep --outfile ./eslzArm/managementGroupTemplates/roleDefinitions/customRoleDefinitions.json`
+
+#### Other
+
+- Cleaned up the Log Analytics "solutions" in portal ARM template, as these are no longer required and deployed by ALZ.
+- Re-introduced the option to enable "Sentinel" in the portal accelerator.
+- Updated Microsoft Sentinel onboarding (enablement) using the new mechanism that fixes issues after 1 July 2024. Microsoft Sentinel is enabled by default through the portal accelerator as a best practice - we do not however configure any data connectors, we only enable the service. Should you wish to remove this, you can delete the association from the Azure Portal after deployment from the "Sentinel" feature blade.
+- Fixed a bug that would result in a failed deployment if deploying an Express Route Gateway and Basic Firewall SKU through the portal accelerator.
+- Fixed a bug that would result in a failed deployment for some multi-region Virtual WAN scenarios with identity networks and gateways.
+- Fixed a bug that had ALZ-LITE deployments try to connect DNS zones twice for single regions deployment.
+
+### July 2024
+
+#### Policy
+
+- Alignment of **allowedValues** in the following initiatives with those used in the included policyDefinitions:
+  - [Enforce recommended guardrails for Azure Key Vault](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-Guardrails-KeyVault.html)
+  - [Enforce recommended guardrails for Kubernetes](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-Guardrails-Kubernetes.html)
+  - [Enforce recommended guardrails for Network and Networking services](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-Guardrails-Network.html)
+  - [Enforce recommended guardrails for Synapse workspaces](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-Guardrails-Synapse.html)
+
+### June 2024
+
+#### Documentation
+
+- As the Log Analytics agent is set to be retired on August 31, 2024, it is crucial for users to plan their migration to avoid any disruption in their monitoring services. The migration involves understanding the current setup, including agents, workspaces, solutions, insights, and data collections, and then configuring the new data collections to ensure a smooth transition. Tools like the AMA Migration Helper and DCR Config Generator can assist in automating and tracking the migration process. We've now made available [migration guidance](./ALZ-AMA-Migration-Guidance) to assist in the process.
+- Developed a script to facilitate the transition from Microsoft Monitoring Agent (MMA) to Azure Monitor Agent (AMA) within Azure landing zones. Review the [migration guidance](./ALZ-AMA-Migration-Guidance) for additional information on how the script can be used.
+- General update AMA documentation [ALZ AMA Update](./ALZ-AMA-Update)
+
+#### Policy
+
+- Added new custom policy [Do not allow deletion of specified resource and resource type](https://www.azadvertizer.net/azpolicyadvertizer/DenyAction-DeleteResources.html) that provides a safeguard against accidental removal of the User Assigned Managed Identity used by AMA. Assigned at the Platform Management Group, it blocks delete calls using the deny action effect.
+- Updated the custom policy [Deploy-ASC-SecurityContacts](https://www.azadvertizer.net/azpolicyadvertizer/Deploy-ASC-SecurityContacts.html) as part of the [Deploy-MDFC-Config](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/deploy-mdfc-config.html) initiative to use the new API and revised construct for the Security Contact API in Defender for Cloud (`alertNotications` alias has been deprecated, and replaced by `notificationSources`).
+
+#### Other
+
+- 12th June 2024 ALZ External Community Call recording and slides uploaded and shared [here](https://aka.ms/alz/community)
+
+### 🆕 AMA Updates
+
+The ALZ Portal Accelerator has been enhanced with the latest AMA updates, ensuring a seamless and efficient management experience. 🚀
+
+Key updates include:
+
+- Azure Landing zones is now using a single centralized User Assigned Managed Identity. The centralization of User Assigned Managed Identity for Azure Monitor Agent (AMA) marks a significant advancement in our ability to manage large-scale deployments efficiently.
+  - The User Assigned Managed Identity `id-ama-prod-<location>-001` is created in resource group `<enterpriseScaleCompanyPrefix>-mgmt` in the management subscription or in the platform subscription when selecting 'Single' in the Platform subscription options.
+  - The feature flag `restrictBringYourOwnUserAssignedIdentityToSubscription` has been added to the policies and initiatives that enables the use of a single centralized User Assigned Managed Identity.
+    - `restrictBringYourOwnUserAssignedIdentityToSubscription` set as True (Policy/Initiative default): Restricts the bring your own UAMI to a UAMI from the same subscription as the VM.
+    - `restrictBringYourOwnUserAssignedIdentityToSubscription` set as False (**ALZ Default**): Removes that restriction and allows you to assign your own UAMI from any subscription within the tenant/ scope of assignment.
+  - We've updated the following built-in policy initiatives to support single User Assigned Managed Identities:
+    - [Enable Azure Monitor for VMs with Azure Monitoring Agent(AMA)](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/924bfe3a-762f-40e7-86dd-5c8b95eb09e6.html)
+    - [Enable Azure Monitor for VMSS with Azure Monitoring Agent(AMA)](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/f5bf694c-cca7-4033-b883-3a23327d5485.html)
+    - [Configure SQL VMs and Arc-enabled SQL Servers to install Microsoft Defender for SQL and AMA with a user-defined LA workspace](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/de01d381-bae9-4670-8870-786f89f49e26.html)
+    - [[Preview]: Enable ChangeTracking and Inventory for virtual machines](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/92a36f05-ebc9-4bba-9128-b47ad2ea3354.html)
+    - [[Preview]: Enable ChangeTracking and Inventory for virtual machine scale sets](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/c4a70814-96be-461c-889f-2b27429120dc.html)
+- Custom [Defender for SQL initiative](https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policySetDefinitions/Deploy-MDFC-DefenderSQL-AMA.json) has been deprecated and is replaced by [Configure SQL VMs and Arc-enabled SQL Servers to install Microsoft Defender for SQL and AMA with a user-defined LA workspace](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/de01d381-bae9-4670-8870-786f89f49e26.html)
+- Custom [User Assigned Managed Identity policy](https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-UserAssignedManagedIdentity-VMInsights.json) has been deprecated. UAMI for AMA is now centrally deployed therefore this policy is no longer required.
+- When utilizing Portal, ARM, or Bicep, it is necessary to manually remove policy assignments corresponding to deprecated policies. To proceed with the deletion of the assignment, please refer to the Display Name or Assignment Name provided below.
+
+  | Assignment Name          | Display Name                                                                                                                 | Scope of Assignment                                         |
+  | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+  | Deploy-MDFC-DefenSQL-AMA | Configure SQL VMs and Arc-enabled SQL Servers to install Microsoft Defender for SQL and AMA with a user-defined LA workspace | Platform Management Group<br>Landing Zones Management Group |
+  | Deploy-UAMI-VMInsights   | Deploy User Assigned Managed Identity for VM Insights                                                                        | Landing Zones Management Group                              |
+
+### 🔃 Policy Refresh H2 FY24
+
+We've missed Q3 timelines completely, but for good reason. We've held back this cycle of Policy Refresh in order to address some key initiatives that we feel are critical to the success of our customers. This is the single largest update to the ALZ Policy since the inception of the project. We're excited to share these updates with you, and we're confident that they will provide significant value to your deployments and the compliance of your Azure Landing Zones.
+
+- 📌Major Update: New "Workload Specific Compliance" section added to ALZ Portal accelerator. This will allow you to apply compliance policies to specific workloads, such as SQL, Storage, and more. These additional compliance controls are frequently required by highly regulated industries like financial services, healthcare, etc. Note: they are not assigned by default, you are required to select the workload and management group scope to apply assignments. For more information review [ALZ Policy - Extra](./ALZ-Policies-Extra)
+This release includes:
+  - 25 new custom initiatives added to support key Azure workloads/services
+  - Significantly enhanced [Deny-PublicPaasEndpoints](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deny-PublicPaasEndpoints.html) to cover additional services (no public access)
+  - Significantly enhanced [Enforce-EncryptTransit](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-EncryptTransit.html) to cover additional services (TLS and SSL)
+  - Significantly enhanced [Enforce-EncryptionCMK](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-EncryptionCMK.html) to cover additional services (customer managed keys)
+  - 24 new custom policies added for various workloads where no equivalent built-in policy is available (included in the new initiatives) - please note some policies only support the "Audit" effect, and should be overridden as needed.
+- 🎉Diagnostic Settings v2 have arrived covering 140 Azure services and greatly simplifying implementation and management.
+  - Updated the diagnostic settings assignment to use the new built-in initiative [Enable allLogs category group resource logging for supported resources to Log Analytics](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/0884adba-2312-4468-abeb-5422caed1038.html)
+  - Deprecating the ALZ custom diagnostic settings policies (53) and initiative (1)
+  - NOTE: going forward if you have issues with Diagnostic Settings, please open an Azure support ticket
+- Updated [Audit-PublicIpAddresses-UnusedResourcesCostOptimization](https://www.azadvertizer.net/azpolicyadvertizer/Audit-PublicIpAddresses-UnusedResourcesCostOptimization.html) to check for `static` public IP addresses that are not associated with any resources (instead of `not basic`).
+- Fixed the bug with [Configure Azure Machine Learning workspace to use private DNS zones](https://www.azadvertizer.net/azpolicyadvertizer/ee40564d-486e-4f68-a5ca-7a621edae0fb.html) policy where `secondPrivateDnsZoneId` parameter was missing which was leaving AML private endpoints incomplete.
+- Updated `Audit-PrivateLinkDnsZones` display name to include the fact it can be `audit` or `deny`
+- Added the [Configure BotService resources to use private DNS zones](https://www.azadvertizer.net/azpolicyadvertizer/6a4e6f44-f2af-4082-9702-033c9e88b9f8.html) built-in policy to the "Deploy-Private-DNS-Zones" initiative and assignment.
+- Added the [Configure Azure Managed Grafana workspaces to use private DNS zones](https://www.azadvertizer.net/azpolicyadvertizer/4c8537f8-cd1b-49ec-b704-18e82a42fd58.html) built-in policy to the "Deploy-Private-DNS-Zones" initiative and assignment.
+- Added the [Configure Azure Virtual Desktop hostpool resources to use private DNS zones](https://www.azadvertizer.net/azpolicyadvertizer/9427df23-0f42-4e1e-bf99-a6133d841c4a.html) built-in policy to the "Deploy-Private-DNS-Zones" initiative and assignment.
+- Added the [Configure Azure Virtual Desktop workspace resources to use private DNS zones](https://www.azadvertizer.net/azpolicyadvertizer/34804460-d88b-4922-a7ca-537165e060ed.html) built-in policy to the "Deploy-Private-DNS-Zones" initiative and assignment.
+- Added the [Configure Azure Device Update for IoT Hub accounts to use private DNS zones](https://www.azadvertizer.net/azpolicyadvertizer/a222b93a-e6c2-4c01-817f-21e092455b2a.html) built-in policy to the "Deploy-Private-DNS-Zones" initiative and assignment.
+- Added the [Configure Azure Arc Private Link Scopes to use private DNS zones](https://www.azadvertizer.net/azpolicyadvertizer/55c4db33-97b0-437b-8469-c4f4498f5df9.html) built-in policy to the "Deploy-Private-DNS-Zones" initiative and assignment.
+- Added the [Deploy - Configure IoT Central to use private DNS zones](https://www.azadvertizer.net/azpolicyadvertizer/d627d7c6-ded5-481a-8f2e-7e16b1e6faf6.html) built-in policy to the "Deploy-Private-DNS-Zones" initiative and assignment.
+- Added the [Configure Recovery Services vaults to use private DNS zones for backup](https://www.azadvertizer.net/azpolicyadvertizer/af783da1-4ad1-42be-800d-d19c70038820.html) built-in policy to the "Deploy-Private-DNS-Zones" initiative and assignment.
+- Added the [Configure a private DNS Zone ID for table groupID](https://www.azadvertizer.net/azpolicyadvertizer/028bbd88-e9b5-461f-9424-a1b63a7bee1a.html) built-in policy to the "Deploy-Private-DNS-Zones" initiative and assignment.
+- Added the [Configure a private DNS Zone ID for table_secondary groupID](https://www.azadvertizer.net/azpolicyadvertizer/c1d634a5-f73d-4cdd-889f-2cc7006eb47f.html) built-in policy to the "Deploy-Private-DNS-Zones" initiative and assignment.
+- Removed Defender for Cloud for DNS, as this is now deprecated and is included in Defender for Servers. Deprecated [Deploy-MDFC-Config](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-MDFC-Config.html) initiative, and superseded with [Deploy-MDFC-Config_20240319](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-MDFC-Config_20240319.html) to minimize breaking change impact on existing deployments.
+- Removed Defender for Cloud for APIs, as this is now deprecated due to plan changes for this service. Deprecated [Deploy-MDFC-Config](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-MDFC-Config.html) initiative, and superseded with [Deploy-MDFC-Config_20240319](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-MDFC-Config_20240319.html) to minimize breaking change impact on existing deployments.
+- Added new initiative and default assignment for [Enforce-Backup](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-Backup.html) scoped to the Landing Zones and Platform management groups in Audit mode:
+  - Added the [[Preview]: Immutability must be enabled for backup vaults](https://www.azadvertizer.net/azpolicyadvertizer/2514263b-bc0d-4b06-ac3e-f262c0979018.html) built-in policy
+  - Added the [[Preview]: Immutability must be enabled for Recovery Services vaults](https://www.azadvertizer.net/azpolicyadvertizer/d6f6f560-14b7-49a4-9fc8-d2c3a9807868.html) built-in policy
+  - Added the [[Preview]: Soft delete should be enabled for Backup Vaults](https://www.azadvertizer.net/azpolicyadvertizer/9798d31d-6028-4dee-8643-46102185c016.html) built-in policy
+  - Added the [[Preview]: Soft delete should be enabled for Recovery Services Vaults](https://www.azadvertizer.net/azpolicyadvertizer/31b8092a-36b8-434b-9af7-5ec844364148.html) built-in policy
+  - Added the [[Preview]: Multi-User Authorization (MUA) must be enabled for Backup Vaults.](https://www.azadvertizer.net/azpolicyadvertizer/c58e083e-7982-4e24-afdc-be14d312389e.html) built-in policy
+  - Added the [[Preview]: Multi-User Authorization (MUA) must be enabled for Recovery Services Vaults.](https://www.azadvertizer.net/azpolicyadvertizer/c7031eab-0fc0-4cd9-acd0-4497bd66d91a.html) built-in policy
+- Added [[Preview]: Azure Recovery Services vaults should disable public network access](https://www.azadvertizer.net/azpolicyadvertizer/9ebbbba3-4d65-4da9-bb67-b22cfaaff090.html) built-in policy to the "Deny-PublicPaaSEndpoints" initiative and assignment.
+- Added new initiative and assignment to enable auditing for Trust Launch capable virtual machines which includes the following built-in policies:
+  - [Disks and OS image should support TrustedLaunch](https://www.azadvertizer.net/azpolicyadvertizer/b03bb370-5249-4ea4-9fce-2552e87e45fa.html)
+  - [Virtual Machine should have TrustedLaunch enabled](https://www.azadvertizer.net/azpolicyadvertizer/c95b54ad-0614-4633-ab29-104b01235cbf.html)
+- Updated ARM deployment for Defender for APIs, which now requires a sub plan be specified. We're defaulting to sub plan "P1", and have confirmed that costs will only be incurred once an API has expressly been onboarded to Defender for APIs. Please thoroughly review Defender for API plans as they related to your environment and adjust the sub plan as needed.
+- Deprecated custom policy [Storage Account set to minimum TLS and Secure transfer should be enabled](https://www.azadvertizer.net/azpolicyadvertizer/Deny-Storage-minTLS.html) and replaced with two built-in policies [Secure transfer to storage accounts should be enabled](https://www.azadvertizer.net/azpolicyadvertizer/404c3081-a854-4457-ae30-26a93ef643f9.html) and [Storage accounts should have the specified minimum TLS version](https://www.azadvertizer.net/azpolicyadvertizer/fe83a0eb-a853-422d-aac2-1bffd182c5d0.html).
+- Added new custom policy "Deploy-Private-DNS-Generic" this policy will DINE-configure private DNS zone groups to override the DNS resolution for PaaS services private endpoint. It is generic to enable private DNS zones for the services which supports private DNS but don't have built-in policies available and also for the new services which support private DNS in future. This policy also supports the configuration of the evaluation delay.
+- Deprecated [Deploy-EncryptTransit](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-EncryptTransit.html) initiative and superseded with [Deploy-EncryptTransit_20240509](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-EncryptTransit_20240509.html) to minimize breaking change impact on existing deployments.
+- Fixed the assignment for [Configure periodic checking for missing system updates on azure virtual machines](https://www.azadvertizer.net/azpolicyadvertizer/59efceea-0c96-497e-a4a1-4eb2290dac15.html) to use the correct RBAC role.
+- Added new initiative for Microsoft Defender for Endpoints [Configure multiple Microsoft Defender for Endpoint integration settings with Microsoft Defender for Cloud](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/77b391e3-2d5d-40c3-83bf-65c846b3c6a3.html).
+
+Special Note: Existing consumers of ALZ will notice that some "assigned by default" initiative assignments have been replaced/renamed to avoid breaking changes to existing assignments. Therefore the below original assignments will need to be deleted, and have the new version assigned instead:
+
+| Initiative | Display Name | Original Assignment Name | New Assignment Name | Scope of Assignment |
+| --- | --- | --- | --- | --- |
+| Deploy-MDFC-Deploy | Deploy Microsoft Defender for Cloud configuration | Deploy-MDFC-Deploy | Deploy-MDFC-Config-H224 | Intermediate Root Management Group |
+| Deploy-EncryptTransit | Deny or Deploy and append TLS requirements and SSL enforcement on resources without Encryption in transit | Enforce-TLS-SSL | Enforce-TLS-SSL-H224 | Landing Zones Management Group |
+| Deploy-Diagnostics-LogAnalytics | Deploy Diagnostic Settings to Azure Services | Deploy-Resource-Diag | Deploy-Diag-Logs | Intermediate Root Management Group |
+
+### May 2024
+
+#### Documentation
+
+- Archived the readme content in the eslzArm folder as it is no longer relevant. Please refer to the [ALZ Wiki](https://aka.ms/alz/wiki) for the latest information on how to deploy Enterprise-Scale Landing Zones. To view the content that was previously here, refer to the [archive](https://github.com/Azure/Enterprise-Scale/blob/45d5c2bd8c1a9e19b1a46a3a0dabb311e5320b64/eslzArm/README.md).
+- Added new instructions for deploying hub and spoke network topology in [multiple regions](./Deploying-ALZ-HubAndSpoke#deploying-networking-resources-in-an-additional-region).
+- Added new instructions for deploying additional vWAN hubs in [multiple regions](./Deploying-ALZ-HubAndSpoke#deploying-networking-resources-in-an-additional-region).
+
+#### Tooling
+
+- Added functionality to deploy platform resources into multiple regions.  In the Core settings, you will have the option to deploy resources in a secondary region.  If you select **Yes** you will have new options:
+  - In the **Networking topology and connectivity** tab:
+    - If you select *Hub and spoke with Azure Firewall* you will deploy a second hub in a secondary region.  You can configure the IP space, VPN Gateway settings, ExpressRoute Gateway settings, and Azure Firewall settings for this region.  Both of the hubs will be peered, with routing for the hubs to the Azure Firewalls being deployed.  If you select DDoS protection or to select the creation of Azure Private DNS Zones, these will be linked to the second hub as well.
+    - If you select *Hub and spoke with your third-party NVA* you will deploy a second hub in a secondary region.  You can configure the IP space, VPN Gateway settings, and ExpressRoute Gateway settings for this region.  Both of the hubs will be peered, but no routing configured.  If you select DDoS protection or to select the creation of Azure Private DNS Zones, these will be linked to the second hub as well.
+    - If you select *Virtual WAN* you will deploy a second virtual hub in a secondary region, as part of your virtual WAN deployment.  You can configure the IP space, VPN Gateway settings, ExpressRoute Gateway settings, and Azure Firewall settings for this region.  Both of the hubs will be peered, with routing for the hubs to the Azure Firewalls being deployed.
+  - In the **Identity** tab, if you have selected a topology to deploy, you will have the option to deploy an Identity virtual network to the secondary region, peered to the hub in that region.
+
+### April 2024
+
+#### Tooling
+
+- Add additional, optional, telemetry to help the ALZ team identify styles of deployments.
 
 ### March 2024
 
@@ -73,6 +297,7 @@ Here's what's changed in Enterprise Scale/Azure Landing Zones:
 - Bug fix for Portal Accelerator. userAssignedIdentityResourceGroup has been added as output for the Portal UI, this fixes deploying the Resource Group with a custom name.
 - Bug fix for Portal Accelerator. `subscriptionIds` now uses lambda function to obtain the subscription IDs from `corpConnectedLzSubscriptionId`. This fixes the Invalid Template error when selecting a corp connected landing zone deployment.
 - Bug fix for Portal Accelerator. `connectivitySubscriptionId` is now skipped when no networking components are deployed. This fixes an InvalidTemplateDeployment error deploying the Resource Group for UAMI.
+- From Portal Accelerator: removed the options to select VM vulnerability assessment provider and to select Defender for Cloud for DNS. These are now default to the recommended settings.
 
 ### AMA Update for the Portal Accelerator
 
@@ -99,7 +324,7 @@ Yes, the Q2 Policy Refresh has been delayed due to a light past quarter and some
 
 - 🎉 Added new initiative default assignment at the Intermediate Root Management Group for [Resources should be Zone Resilient](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/130fb88f-0fc9-4678-bfe1-31022d71c7d5.html) in Audit mode.
 - Added new default assignment at the Intermediate Root Management Group for [Resource Group and Resource locations should match](https://www.azadvertizer.net/azpolicyadvertizer/0a914e76-4921-4c19-b460-a2d36003525a.html), which will help customers better manage and identify regionally deployed resources and ultimately support improved resilience.
-- We are deprecating MariaDB custom policies. For more information: [ALZ Policies FAQ](./ALZ-Policies-FAQ) 
+- We are deprecating MariaDB custom policies. For more information: [ALZ Policies FAQ](./ALZ-Policies-FAQ)
 - Fixed a typo in the Private DNS Zones initiative for the policy definition IDs for Databrics (corrected to Databricks). While not a breaking change, it is recommended to redeploy the initiative to ensure the correct policy definition IDs are used if you are using Private DNS Zones for Databricks - specifically if you have configured any exclusions or overrides for the Databricks policy definitions, as these rely on the policy definition ID (which has been updated). You will need to recreate the exclusions or overrides for Databricks if you choose not to redeploy the initiative.
 - Added ['Container Apps environment should disable public network access'](https://www.azadvertizer.net/azpolicyadvertizer/d074ddf8-01a5-4b5e-a2b8-964aed452c0a.html) to ['Deny-PublicPaaSEndpoints'.](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deny-PublicPaaSEndpoints.html)
 - Added ['Container Apps should only be accessible over HTTPS'](https://www.azadvertizer.net/azpolicyadvertizer/0e80e269-43a4-4ae9-b5bc-178126b8a5cb.html) to this ['Deny or Deploy and append TLS requirements and SSL enforcement on resources without Encryption in transit'.](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-EncryptTransit.html)
@@ -150,6 +375,8 @@ Yes, the Q2 Policy Refresh has been delayed due to a light past quarter and some
 
 #### Policy
 
+- Added ['Container Apps environment should disable public network access'](https://www.azadvertizer.net/azpolicyadvertizer/d074ddf8-01a5-4b5e-a2b8-964aed452c0a.html) to ['Deny-PublicPaaSEndpoints'.](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deny-PublicPaaSEndpoints.html)
+- Added ['Container Apps should only be accessible over HTTPS'](https://www.azadvertizer.net/azpolicyadvertizer/0e80e269-43a4-4ae9-b5bc-178126b8a5cb.html) to this ['Deny or Deploy and append TLS requirements and SSL enforcement on resources without Encryption in transit'.](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-EncryptTransit.html)
 - The portal accelerator experience has been updated to include deployment of Azure Monitor baseline alerts. Details on the policies deployed can be found [here](https://aka.ms/amba/alz).
 - Fixed issue with couple of Policy file names to align with the actual name of the policies
 - Bug fix for [Deploy-MDFC-Config](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Deploy-MDFC-Config.html) version
@@ -263,7 +490,7 @@ Major update in this release: introducing the Policy Testing Framework foundatio
 
 #### Other
 
-- When the option to deploy Log Analytics workspace and enable monitoring is enabled (Yes) in the Platform management, security, and governance section, Diagnostic Settings for Management Groups are also deployed. 
+- When the option to deploy Log Analytics workspace and enable monitoring is enabled (Yes) in the Platform management, security, and governance section, Diagnostic Settings for Management Groups are also deployed.
 
 ### May 2023
 
@@ -325,7 +552,6 @@ We strongly advise staying up-to-date to ensure the best possible security postu
 - [Migrate Azure landing zone policies to Azure built-in policies](https://aka.ms/alz/update/builtin)
 
 > **Please note** that, in some cases, moving to the new Built-In Policy definitions, deploying changes to existing custom policies or removing deprecated policies will require a new Policy Assignment and removing the previous Policy Assignment, which will mean compliance history for the Policy Assignment will be lost. However, if you have configured your Activity Logs and Security Center to export to a Log Analytics Workspace, Policy Assignment historic data will be stored here as per the retention duration configured. Thank you for your cooperation, and we look forward to continuing to work with you to ensure the security and compliance of our Azure environment.
-
 > While we've made every effort to test the stability of this release, should you have any issues and the guidance provided does not resolve your issue, please open a [GitHub issue](https://github.com/Azure/Enterprise-Scale/issues) so we can do our best to support you and document the fix for others.
 
 #### Policy
@@ -376,7 +602,7 @@ Note that a number of initiatives have been updated that will fail to deploy if 
 ##### Update
 
 - Removed deprecated policy [[Deprecated]: Latest TLS version should be used in your API App (azadvertizer.net)](https://www.azadvertizer.net/azpolicyadvertizer/8cb6aa8b-9e41-4f4e-aa25-089a7ac2581e.html) from initiative [Deny or Deploy and append TLS requirements and SSL enforcement on resources without Encryption in transit (azadvertizer.net)](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-EncryptTransit.html) as recommended policy is already included in the initiative.
-  - **BREAKING CHANGE** (parameters changed): 
+  - **BREAKING CHANGE** (parameters changed):
     - Delete assignment [Deny or Deploy and append TLS requirements and SSL enforcement on resources without Encryption in transit (azadvertizer.net)](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-EncryptTransit.html).
     - Delete custom initiative prior to applying updates as parameters have changed, then re-assign.
     - Delete orphaned indentity on Landing Zone scope.
@@ -463,7 +689,7 @@ Note that a number of initiatives have been updated that will fail to deploy if 
 #### Docs
 
 - Migrated the following pages to the [Enterprise-Scale Wiki](https://github.com/Azure/Enterprise-Scale/wiki/)
-  
+
 | Original URL                                                                                                                                                         | New URL                                                                                                                          |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | [docs/ESLZ-Policies.md](https://github.com/Azure/Enterprise-Scale/blob/main/docs/ESLZ-Policies.md)                                                                   | [wiki/ALZ-Policies](https://github.com/Azure/Enterprise-Scale/wiki/ALZ-Policies)                                                 |
@@ -476,8 +702,7 @@ Note that a number of initiatives have been updated that will fail to deploy if 
 | [docs/EnterpriseScale-Roadmap.md](https://github.com/Azure/Enterprise-Scale/blob/main/docs/EnterpriseScale-Roadmap.md)                                               | [wiki/ALZ-Roadmap](https://github.com/Azure/Enterprise-Scale/wiki/ALZ-Roadmap)                                                   |
 | [docs/EnterpriseScale-Setup-aad-permissions.md](https://github.com/Azure/Enterprise-Scale/blob/main/docs/EnterpriseScale-Setup-aad-permissions.md)                   | [wiki/ALZ-Setup-aad-permissions](https://github.com/Azure/Enterprise-Scale/wiki/ALZ-Setup-aad-permissions)                       |
 | [docs/EnterpriseScale-Setup-azure.md](https://github.com/Azure/Enterprise-Scale/blob/main/docs/EnterpriseScale-Setup-azure.md)                                       | [wiki/ALZ-Setup-azure](https://github.com/Azure/Enterprise-Scale/wiki/ALZ-Setup-azure)                                           |
-  
-  
+
 - Updated the guidance for contributing to the [Azure/Enterprise-Scale](https://github.com/Azure/Enterprise-Scale/) repository
 
 #### Tooling
@@ -515,20 +740,20 @@ Note that a number of initiatives have been updated that will fail to deploy if 
 
 - "**Deploy Diagnostic Settings for Log Analytics to Log Analytics workspace**" definition added and also added to `Deploy-Diagnostics-LogAnalytics` initiative
 - "**Deploy Diagnostic Settings for Databricks to Log Analytics workspace**" definition update
-  
+
   - Version 1.1.0 -> 1.2.0
   - Added missing log categories
 - "**Deploy SQL Database security Alert Policies configuration with email admin accounts**" definition update
-  
+
   - Version 1.0.0 -> 1.1.1
   - Changed email addresses from hardcoding to array parameter
 - "**Deploy SQL Database Transparent Data Encryption**" definition update
-  
+
   - Version 1.0.0 -> 1.1.0
   - Added system databases master, model, tempdb, msdb, resource to exclusion parameter as default values
   - Added as Policy Rule 'notIn' which will exclude the above databases from the policy
 - Updated "**Deploy-Private-DNS-Zones**" Custom initiative for **Azure Public Cloud**, with latest built-in Policies. Policies were added for the following Services:
-  
+
   - Azure Automation
   - Azure Cosmos DB (all APIs: SQL, MongoDB, Cassandra, Gremlin, Table)
   - Azure Data Factory
@@ -539,7 +764,7 @@ Note that a number of initiatives have been updated that will fail to deploy if 
   - Azure Media Services
   - Azure Monitor
 - Minor fixes related to "**Deploy-Private-DNS-Zones**" Custom Initiative and respective Assignment:
-  
+
   - Added missing Zones for **"WebPubSub"** and **"azure-devices-provisioning"**, so Initiative Assignment works correctly
   - Minor correction related to **ASR Private DNS Zone variable**, so Initiative Assignment works correctly
   - Conversion of **"Azure Batch"** Private DNS Zone (from regional to global), to properly align with latest respective documentation and functionality
@@ -548,28 +773,27 @@ Note that a number of initiatives have been updated that will fail to deploy if 
 - Added `Configure Microsoft Defender for Azure Cosmos DB to be enabled` to the `Deploy Microsoft Defender for Cloud configuration` initiative and updated version to `3.1.0` - Fixing issue [issue #1081](https://github.com/Azure/Enterprise-Scale/issues/1081)
 - Added `AZFWFlowTrace` category for Azure Firewall in associated Diagnostic Policy
 - Deprecated the following ALZ policies
-  
+
   - [Deploy-Nsg-FlowLogs](https://www.azadvertizer.net/azpolicyadvertizer/Deploy-Nsg-FlowLogs.html)
   - [Deploy-Nsg-FlowLogs-to-LA](https://www.azadvertizer.net/azpolicyadvertizer/Deploy-Nsg-FlowLogs-to-LA.html)
   - [Deny-PublicIp](https://www.azadvertizer.net/azpolicyadvertizer/Deny-PublicIP.html)
-  
+
   in favour of Azure built-in policies with the same or enhanced functionality.
-  
+
 | ALZ Policy ID(s)          | Azure Builti-in Policy ID(s)         |
 | --------------------------- | -------------------------------------- |
 | Deploy-Nsg-FlowLogs-to-LA | e920df7f-9a64-4066-9b58-52684c02a091 |
 | Deploy-Nsg-FlowLogs       | e920df7f-9a64-4066-9b58-52684c02a091 |
 | Deny-PublicIp             | 6c112d4e-5bc7-47ae-a041-ea2d9dccd749 |
-  
-  
+
 - "**"Deploy-ASC-SecurityContacts"**" definition update
-  
+
   - displayName and description update to "Deploy Microsoft Defender for Cloud Security Contacts"
   - Added new parameter `minimalSeverity` with settings
     - Default value `High`
     - Allowed values: `High`, `Medium`, `Low`
 - "**"Deploy-MDFC-Config"**" definition update
-  
+
   - Updated policy definitions set Deploy-MDFC-Config, Deploy-MDFC-Config(US Gov), Deploy-MDFC-Config (China)
     - added new parameter `minimalSeverity`.
     - added default value for multiple  parameters.
@@ -622,7 +846,7 @@ Note that a number of initiatives have been updated that will fail to deploy if 
 #### Docs
 
 - Updated the Enterprise-scale [Wiki](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale/wiki/) to reflect the latest updates on Azure landing zone accelerator.
-  
+
   - [Deploy Azure landing zone portal accelerator](./Deploying-ALZ)
   - [Deployment guidance for Small Enterprises](./Deploying-ALZ-BasicSetup)
   - [How to deploy without hybrid connectivity](./Deploying-ALZ-Foundation)
@@ -872,7 +1096,7 @@ Note that a number of initiatives have been updated that will fail to deploy if 
 
 - Replaced `Deploy-Default-Udr` policy with `Deploy-Custom-Route-Table` that allows deploying custom route tables with an arbitrary set of UDRs (including a 0/0 default route if needed). See [here](https://github.com/Azure/Enterprise-Scale/blob/main/docs/Deploy/deploy-policy-driven-routing.md) for usage details.
 - Updated `Deploy-Budget` policy, to v1.1.0, adding new parameter of `budgetName` that defaults to: `budget-set-by-policy` - closing issue [#842](https://github.com/Azure/Enterprise-Scale/issues/842)
-  
+
   - Including Fairfax
   - Also Mooncake (Azure China) even though not in use yet
 - Added `AuditEvent` to `Deploy-Diagnostics-AA` Policy Definition to ensure correct compliance reporting on Automation Account used for diagnostics - closing issue [#864](https://github.com/Azure/Enterprise-Scale/issues/864)
@@ -1007,7 +1231,7 @@ Note that a number of initiatives have been updated that will fail to deploy if 
 - Various custom ESLZ Azure Policies have moved to Built-In Azure Policies, see below table for more detail:
 
 > You may continue to use the ESLZ custom Azure Policy as it will still function as it does today. However, we recommend you move to assigning the new Built-In version of the Azure Policy.
-> 
+>
 > **Please note** that moving to the new Built-In Policy Definition will require a new Policy Assignment and removing the previous Policy Assignment, which will mean compliance history for the Policy Assignment will be lost. However, if you have configured your Activity Logs and Security Center to export to a Log Analytics Workspace; Policy Assignment historic data will be stored here as per the retention duration configured.
 
 **Policy Definitions Updates**

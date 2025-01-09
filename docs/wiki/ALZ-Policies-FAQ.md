@@ -4,6 +4,22 @@
 
 There is a lot of change happening for policies in Azure, and by extension ALZ, and we have a number of common issues being raised by our customers and partners. This page is intended to address those issues.
 
+### ALZ Policies and Initiatives and the escape character
+
+We've had a number of issues and pull requests submitted specifically around the extra bracket `[` that is present in all policies and initiatives in this repo.
+
+> NOTE: The policies and initiatives in this repo are NOT intended to be deployed directly in Azure. You cannot copy the definition and deploy the policy directly without editing first. If you want to deploy a specific policy you must first remove the additional leading `[` character from the policy or initiative definition. Alternatively, to deploy a specific policy directly in Azure Policy, please use AzAdvertizer to lookup the policy and use the `copy definition` button to copy a clean version of the policy ready for use (this will remove all the extra `[`).
+
+The reason for this is that the policies and initiatives in this repo are intended to be used as part of the ALZ deployment process, and are used to generate the ARM templates that are deployed to Azure. The leading `[` character is required to support the generation of the ARM templates.
+
+### Why does ALZ not promote the usage of User-Assigned Managed Identities for Policy Assignments?
+
+Whilst User-Assigned Managed Identities for Policy Assignments are now supported, there are a number of reasons why ALZ does not promote the usage of them. 
+
+The primary risk is that the User-Assigned Managed Identity created and used for one or more policy assignments is an over-permissioned identity; both in terms of RBAC roles it has assigned to it and also the scope/s that it has been assigned to. With the focus on least privilege and zero trust security principles, we believe in ALZ that the use of a User-Assigned Managed Identity for policy assignments is not the best practice and instead you should continue to use the system-assigned managed identity for your Azure policy assignments.
+
+Not only does using a system-assigned managed identity for policy assignments reduce the risk of over-permissioning, but it also reduces the complexity of managing the identity and its RBAC permissions and assignments as the lifecycle of the system-assigned managed identity is managed by Azure policy automatically with the lifecycle of the policy assignment it is associated with.
+
 ### Diagnostic Settings v2 (December 2023)
 
 There are several issues raised around Diagnostic Settings, and we acknowledge that this is a complex area that is causing a lot of pain.

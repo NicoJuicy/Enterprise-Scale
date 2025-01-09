@@ -183,7 +183,13 @@ For a policy set definition, additional code should be added inside of the `load
 
 `loadTextContent('../resources/Microsoft.Authorization/policySetDefinitions/Deploy-Sql-Security.json')`
 
-The policy definition files will be compiled into a `policies.json` file from the `policy.bicep` file which was amended.
+~~The policy definition files will be compiled into a `policies.json` file from the `policy.bicep` file which was amended.~~
+
+> Due to security compliance requirements, we've made core changes that mean we no longer automatically build the policies, initiatives and roles templates after changes in the `src` folder are committed. This means that you as a contributor must run the bicep build commands to generate the required outputs as part of your pull request. Depending on the files you've updated these are the commands:
+> 
+> - `bicep build ./src/templates/policies.bicep --outfile ./eslzArm/managementGroupTemplates/policyDefinitions/policies.json`
+> - `bicep build ./src/templates/initiatives.bicep --outfile ./eslzArm/managementGroupTemplates/policyDefinitions/initiatives.json`
+> - `bicep build ./src/templates/roles.bicep --outfile ./eslzArm/managementGroupTemplates/roleDefinitions/customRoleDefinitions.json`
 
 Once the policy work has been completed, a pull request should be submitted to the repository:
 
@@ -197,7 +203,7 @@ Policy versioning follows the same protocol as built-in policies. More informati
 
 For policy deprecation, the process is documented in the [Azure Landing Zones - Deprecating Policies](./ALZ-Deprecated-Services) page.
 
-If a policy is part of an initiative, references to policies that are being deprecated should be removed. Policy initiatives are located in the [policySetDefinitions](https://github.com/Azure/Enterprise-Scale/blob/main/src/resources/Microsoft.Authorization/policySetDefinitions/) folder. To find out if a policy is part of an initiative it is recommended to look up the policy definition in [AzAdvertiser](http://azadvertizer.com/) and check for association with initiatives. When identified, go into the necessary initiative and remove references to the definition. Locate the policy definition in the parameters of the initiative and remove reference:
+If a policy is part of an initiative, references to policies that are being deprecated should be removed. Policy initiatives are located in the [policySetDefinitions](https://github.com/Azure/Enterprise-Scale/blob/main/src/resources/Microsoft.Authorization/policySetDefinitions/) folder. To find out if a policy is part of an initiative it is recommended to look up the policy definition in [AzAdvertizer](http://azadvertizer.com/) and check for association with initiatives. When identified, go into the necessary initiative and remove references to the definition. Locate the policy definition in the parameters of the initiative and remove reference:
 
 ![Example policy def in initiative](media/example-def-in-init.png)
 
@@ -231,7 +237,7 @@ Policies in `eslzArm.json` file will also need updating if wanting to assign a n
 
 The portal reference implementation is a popular UI driven reference implementation for Azure landing zones, and is maintained as part of this repository. It is a great way to get started with Azure landing zones, and is a great way to learn about the underlying Azure landing zone guidance.
 
-When creating new policies that will be assigned by default by the portal reference architecture you are required to also include appropriate information and options in the portal experience (`eslzArm/eslz-portal.json`). Please do include appropriate selectors in line with the section (management group) that the policy is assigned to, and ensure that tooltips include links to the AzAdvertizer page for the policy or initiative.
+When creating new policies that will be assigned by default by the portal reference architecture you are required to also include appropriate information and options in the portal experience (`eslzArm/eslz-portal.json`). Please do include appropriate selectors in line with the section (management group) that the policy is assigned to, and ensure that tooltips include links to the [AzAdvertizer](http://azadvertizer.com/) page for the policy or initiative.
 
 Example for the Key Vault initiative (note the tooltip):
 
